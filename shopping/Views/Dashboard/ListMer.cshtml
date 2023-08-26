@@ -1,0 +1,218 @@
+﻿@model List<Merchant>
+@{
+    Layout = "_LayoutDB";
+    ViewBag.activeT = "user";
+    ViewBag.data = "list_m";
+}
+
+<div class="content container-fluid">
+
+<div class="page-header">
+<div class="row">
+<div class="col-sm-12">
+<div class="page-sub-header">
+<h3 class="page-title">Students</h3>
+<ul class="breadcrumb">
+<li class="breadcrumb-item"><a >Student</a></li>
+<li class="breadcrumb-item active">All Students</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="student-group-form">
+<div class="row">
+<div class="col-lg-3 col-md-6">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Search by ID ...">
+</div>
+</div>
+<div class="col-lg-3 col-md-6">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Search by Name ...">
+</div>
+</div>
+<div class="col-lg-4 col-md-6">
+<div class="form-group">
+<input type="text" class="form-control" placeholder="Search by Phone ...">
+</div>
+</div>
+<div class="col-lg-2">
+<div class="search-student-btn">
+<button type="btn" class="btn btn-primary">Search</button>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div class="card card-table comman-shadow">
+<div class="card-body">
+
+@*<div class="page-header">
+<div class="row align-items-center">
+<div class="col">
+<h3 class="page-title">Students</h3>
+</div>
+<div class="col-auto text-end float-end ms-auto download-grp">
+<a href="students.html" class="btn btn-outline-gray me-2 active"><i class="feather-list"></i></a>
+<a href="students-grid.html" class="btn btn-outline-gray me-2"><i class="feather-grid"></i></a>
+<a href="#" class="btn btn-outline-primary me-2"><i class="fas fa-download"></i> Download</a>
+<a href="add-student.html" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+</div>
+</div>
+</div>*@
+@if (TempData.ContainsKey("Msg"))
+{
+    @if (TempData.ContainsKey("Code"))
+    {
+        @switch (TempData["Code"])
+        {
+            case 0 :
+                <div class="alert alert-success text-center" >@TempData["Msg"]</div>
+                break;
+            case 1:
+            <div class="alert alert-primary text-center" >@TempData["Msg"]</div>
+                break;
+ case 2:
+            <div class="alert alert-warning text-center" >@TempData["Msg"]</div>
+                break;
+ case 3:
+                <div class="alert alert-danger text-center" >@TempData["Msg"]</div>
+                break;
+            default:
+               <div class="alert alert-info text-center" >@TempData["Msg"]</div>
+                break;
+        }
+    }else
+    {
+        <div class="alert alert-info text-center" >@TempData["Msg"]</div>
+    }
+
+}
+<div class="table-responsive">
+<table class="table border-0 star-student table-hover table-center mb-0 datatable table-striped">
+<thead class="student-thread">
+<tr>
+<th>
+<div class="form-check check-tables">
+<input class="form-check-input" type="checkbox" value="something">
+</div>
+</th>
+<th>ID</th>
+<th>Name</th>
+<th>User Name</th>
+<th>Email</th>
+@*<th>تاريخ الميلاد</th>
+*@<th>Mobile Number</th>
+<th>Address</th>
+<th>تاريخ الانظمام</th>
+<th>اخر التعديل</th>
+<th>اخر التعديل</th>
+<th>اخر التعديل</th>
+<th class="text-end">اخر تعديل لكلمة المرور</th>
+</tr>
+</thead>
+<tbody>
+
+
+     @foreach (var item in Model)
+     {
+    <tr>     
+<td>
+<div class="form-check check-tables">
+<input class="form-check-input" type="checkbox" value="something">
+</div>
+</td>
+<td>@item.Id</td>
+<td>
+<h2 class="table-avatar">
+                                                    @if (@item.IdNavigation.Profile !=null)
+                                                    {
+                                                        <a  class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="~/img/profile/@item.IdNavigation.Profile" alt="User Image"></a>
+
+                                                    }else
+                                                    {
+<a  class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="~/img/profile/profile.jpg" alt="User Image"></a>
+                                                    
+
+                                                    }
+<a >@item.IdNavigation.Fname @item.IdNavigation.Mname @item.IdNavigation.Lname</a>
+</h2>
+</td>
+<td>@item.IdNavigation.UserName</td>
+<td>@item.IdNavigation.Email</td>
+@*<td>@item.Birthday</td>*@
+<td>@item.IdNavigation.Phone</td>
+<td>@item.IdNavigation.Address , @item.IdNavigation.City , @item.IdNavigation.Country</td>
+<td>@item.IdNavigation.JoinDate</td>
+<td>@item.Tax</td>
+<td>@item.Earning</td>
+                                            @if (@item.IsActvity==true)
+                                            { <td ><span class="btn btn-success rounded-pill" >الحساب مفعل</span></td>
+
+                                            }
+                                            else
+                                            { <td><span class="btn btn-danger rounded-pill" >الحساب غير مفعل</span></td>
+                                                
+                                            }
+                                           
+<td class="text-end">
+<div class="actions ">
+<a asp-action="actOrDis" asp-route-MID="@item.Id"  class="btn btn-sm bg-success-light  ">
+<span class="rounded-circle" >ت/غ</span>
+</a>
+@*<a  class="btn btn-sm bg-danger-light">
+<i class="feather-edit"></i>
+</a>*@
+</div>
+</td>
+</tr>
+
+
+
+     }
+
+
+</tbody>
+
+       
+</table>
+ 
+</div>
+</div>
+</div>
+</div>
+</div>
+@* <div class="col-12">
+                        <nav>
+                          <ul class="pagination justify-content-center">
+                            @if (ViewBag.CurrentPage < 1)
+                            {
+                                <li class="page-item "><a class="page-link"  href="@Url.Action("ListMer", new { page = ViewBag.CurrentPage  - 1 })" >Previous</a></li>
+                            }
+                            else
+                            {
+                                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                            }
+                            
+                            @for (int i = 1; i <= (int) Math.Ceiling((double)ViewBag.TotalItems/ViewBag.PageSize); i++)
+                                    {
+                                              if (i == ViewBag.CurrentPage)
+                                                    {
+                                                         <li class="page-item active"><a class="page-link">@i</a></li>
+                                                      }else{
+                                                          <li class="page-item"><a class="page-link" href="@Url.Action("ListMer", new { page = i })">@i</a></li>
+                                                      }
+                                        }
+                            @if (ViewBag.CurrentPage > (int)Math.Ceiling((double)ViewBag.TotalItems / ViewBag.PageSize))
+                                         {
+                                            <li class="page-item"><a class="page-link" href="@Url.Action("ListMer", new { page = ViewBag.CurrentPage  + 1 })">Next</a></li>
+                                        }else{
+                                            <li class="page-item disabled"><a class="page-link" >Next</a></li>
+                                        }
+                        </ul>
+                        </nav>
+                    </div>*@
+</div>

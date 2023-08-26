@@ -1,0 +1,455 @@
+﻿@using Microsoft.EntityFrameworkCore
+@model DashboardVM 
+@{
+    Layout = "_LayoutDB";
+    decimal dior = 0 ;
+    foreach (var item in Model.orderDaitels.ToList())
+    {
+        dior = Math.Round((Math.Round(Convert.ToDecimal(item.Earning),2) *item.Price) * item.Quantity ,2);
+    }
+
+    var memberOfCount = Model.members.GroupBy(u => new {u.JoinDate.Value.Month ,  u.JoinDate.Value.Year })
+            .Select(g => new
+            {
+                Year = g.Key.Year,
+                Month = g.Key.Month,
+                UserCount = g.Count()
+            })
+            .ToList();
+
+    var merOfCount = Model.merchant.Include(e=>e.IdNavigation).GroupBy(u => new { u.IdNavigation.JoinDate.Value.Year, u.IdNavigation.JoinDate.Value.Month })
+             .Select(g => new
+             {
+                 Year = g.Key.Year,
+                 Month = g.Key.Month,
+                 UserCount = g.Count()
+             })
+             .ToList();
+    var list = memberOfCount;
+    var list2 = merOfCount;
+
+    if (memberOfCount[0].Month > 1)
+    {
+
+        int i = 1;
+        while (memberOfCount.Last().Month>=i )
+        {
+
+            list.Insert(i - 1, new{ Year = memberOfCount[0].Year ,Month = i,UserCount= 0 });
+            list2.Insert(i - 1, new{ Year = memberOfCount[0].Year ,Month = i,UserCount= 0 });
+            i++;
+        }
+
+
+
+    }
+
+    int[][] v  = new int[2][];
+    v[0] = new int[list.Count()];
+    v[1] = new int[list.Count()];
+    for(int ii = 0; ii < list.Count(); ii++)
+    {
+        v[0][ii] =  list[ii].UserCount  ;
+    }
+    for(int ii = 0; ii < list.Count(); ii++)
+    {
+        if (list2.Count() > ii)
+            v[1][ii] = list2[ii].UserCount;
+        else v[1][ii] = 0;
+    }
+    Model.vl = v;
+    DateTime d = DateTime.Parse(list[0].Year+","+list[0].Month+","+1);
+    Model.dateTime = d;
+}
+<div class="content container-fluid">
+
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-sub-header">
+                                <h3 class="page-title">Welcome Admin!</h3>
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a >Home</a></li>
+                                    <li class="breadcrumb-item active">Admin</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+                <div class ="row">
+                <div class="col-md-6">
+<div class="row">
+                    <div class="col-xl-12 col-sm-12 col-12 d-flex">
+                        <div class="card bg-comman w-100">
+                            <div class="card-body">
+                                <div class="db-widgets d-flex justify-content-between align-items-center">
+                                    <div class="db-info">
+                                        <h6>المستخدمين</h6>
+                                        <h3>@Model.members.Count()</h3>
+                                    </div>
+                                    <div class="db-icon">
+                                        <img src="~/preskool/assets/img/icons/Users.png" width="50" height="50" alt="Dashboard Icon">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    </div>
+                    <div class="row">
+                    <div class="col-xl-6 col-sm-12 col-12 d-flex">
+                        <div class="card bg-comman w-100">
+                            <div class="card-body">
+                                <div class="db-widgets d-flex justify-content-between align-items-center">
+                                    <div class="db-info">
+                                        <h6>التجار</h6>
+                                        <h3>@Model.merchant.Count()</h3>
+                                    </div>
+                                    <div class="db-icon">
+                                        <img src="~/preskool/assets/img/icons/Trade-PNG-File.png"  width="50" height="50" alt="Dashboard Icon">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-6 col-sm-12 col-12 d-flex">
+                        <div class="card bg-comman w-100">
+                            <div class="card-body">
+                                <div class="db-widgets d-flex justify-content-between align-items-center">
+                                    <div class="db-info">
+                                        <h6>المنتجات</h6>
+                                        <h3>@Model.prodect.Count()</h3>
+                                    </div>
+                                    <div class="db-icon">
+                                        <img src="~/preskool/assets/img/icons/5998200.png"  width="50" height="50" alt="Dashboard Icon">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div> <div class="row">
+                    <div class="">
+                        <div class="card bg-comman w-100">
+                            <div class="card-body">
+                                <div class="db-widgets d-flex justify-content-between align-items-center">
+                                    <div class="db-info">
+                                        <h6>ارباح</h6>
+                                        <h3>YER@(dior.ToString())</h3>
+                                    </div>
+                                    <div class="db-icon">
+                                        <img src="~/preskool/assets/img/icons/dash-icon-04.svg" alt="Dashboard Icon">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                    <div class="col-md-6">
+<div class="card">
+<div class="card-header">
+<h5 class="card-title">Apex Simple</h5>
+</div>
+<div class="card-body">
+<div id="timeline-chart"></div>
+</div>
+</div>
+</div>
+ 
+                </div>
+                @*<div class="row">
+                    <div class="col-md-12 col-lg-6">
+
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col-6">
+                                        <h5 class="card-title">Overview</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <ul class="chart-list-out">
+                                            <li><span class="circle-blue"></span>Teacher</li>
+                                            <li><span class="circle-green"></span>Student</li>
+                                            <li class="star-menus"><a href="javascript:;"><i
+                                                        class="fas fa-ellipsis-v"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="apexcharts-area"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 col-lg-6">
+
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col-6">
+                                        <h5 class="card-title">Number of Students</h5>
+                                    </div>
+                                    <div class="col-6">
+                                        <ul class="chart-list-out">
+                                            <li><span class="circle-blue"></span>Girls</li>
+                                            <li><span class="circle-green"></span>Boys</li>
+                                            <li class="star-menus"><a href="javascript:;"><i
+                                                        class="fas fa-ellipsis-v"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div id="bar"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>*@
+                <div class="row">
+                    <div class="col-xl-6 d-flex">
+
+                        <div class="card flex-fill student-space comman-shadow">
+                            <div class="card-header d-flex align-items-center">
+                                <h5 class="card-title">Star Students</h5>
+                                <ul class="chart-list-out student-ellips">
+                                    <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table
+                                        class="table star-student table-hover table-center table-borderless table-striped">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th class="text-center">Day</th>
+                                                <th class="text-center">Month</th>
+                                                <th class="text-end">Year</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.members.Skip(@Model.members.Count()-5).Take(5).ToList())
+                                            { <tr>
+                                                <td class="text-nowrap">
+                                                    <div>@item.Id</div>
+                                                </td>
+                                                <td class="text-nowrap">
+                                                    <a >
+                                                   
+                                                        <img class="rounded-circle"
+                                                            src="~/img/profile/@(item.Profile??"profile.jpg")" width="25"
+                                                            alt="img User">
+                                                           
+                                                        @item.Fname @item.Lname
+                                                    </a>
+                                                </td>
+                                                <td class="text-center">@item.JoinDate.Value.Day.ToString()</td>
+                                                <td class="text-center">@item.JoinDate.Value.Month.ToString()</td>
+                                                <td class="text-end">
+                                                    <div>@item.JoinDate.Value.Year.ToString()</div>
+                                                </td>
+                                            </tr>
+                                                
+                                            }
+                                           
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-6 d-flex">
+
+                        <div class="card flex-fill comman-shadow">
+                            <div class="card-header d-flex align-items-center">
+                                <h5 class="card-title ">Student Activity </h5>
+                                <ul class="chart-list-out student-ellips">
+                                    <li class="star-menus"><a href="javascript:;"><i class="fas fa-ellipsis-v"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="activity-groups">
+                                    @foreach (var item in Model.orders.ToList())
+                                    {<div class="activity-awards">
+                                        <div class="award-boxs">
+                                            <img src="~/preskool/assets/img/icons/award-icon-01.svg" alt="Award">
+                                        </div>
+                                        <div class="award-list-outs">
+                                            <h4>@item.Id</h4>
+                                            <h5>@item.DeliveryLocation</h5>
+                                        </div>
+                                        <div class="award-time-list">
+                                            <span>@(@DateTime.UtcNow.DayOfYear-item.DateOrder.Value.DayOfYear) Day ago</span>
+                                        </div>
+                                    </div>
+                                        
+                                    }
+                                    
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card flex-fill fb sm-box">
+                            <div class="social-likes">
+                                <p>Like us on facebook</p>
+                                <h6>50,095</h6>
+                            </div>
+                            <div class="social-boxs">
+                                <img src="~/preskool/assets/img/icons/social-icon-01.svg" alt="Social Icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card flex-fill twitter sm-box">
+                            <div class="social-likes">
+                                <p>Follow us on twitter</p>
+                                <h6>48,596</h6>
+                            </div>
+                            <div class="social-boxs">
+                                <img src="~/preskool/assets/img/icons/social-icon-02.svg" alt="Social Icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card flex-fill insta sm-box">
+                            <div class="social-likes">
+                                <p>Follow us on instagram</p>
+                                <h6>52,085</h6>
+                            </div>
+                            <div class="social-boxs">
+                                <img src="~/preskool/assets/img/icons/social-icon-03.svg" alt="Social Icon">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-sm-6 col-12">
+                        <div class="card flex-fill linkedin sm-box">
+                            <div class="social-likes">
+                                <p>Follow us on linkedin</p>
+                                <h6>69,050</h6>
+                            </div>
+                            <div class="social-boxs">
+                                <img src="~/preskool/assets/img/icons/social-icon-04.svg" alt="Social Icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="~/preskool/assets/plugins/apexchart/apexcharts.min.js"></script>
+            <script src="~/preskool/assets/plugins/apexchart/chart-data.js"></script>
+            <script >
+
+                var options = {
+      chart: {
+        type: "area",
+        height: 300,
+        foreColor: "#999",
+        stacked: true,
+        dropShadow: {
+          enabled: true,
+          enabledSeries: [0],
+          top: -2,
+          left: 2,
+          blur: 5,
+          opacity: 0.06
+        }
+      },
+      colors: ['#00E396', '#0090FF'],
+      stroke: {
+        curve: "smooth",
+        width: 3
+      },
+      dataLabels: {
+        enabled: false
+      },
+      series: [{
+        name: "@Model.name1",
+        data: generateDayWiseTimeSeries(0, @Model.Conut)
+      }, {
+        name:"@Model.name2",
+        data: generateDayWiseTimeSeries(1, @Model.Conut)
+      }],
+      markers: {
+        size: 0,
+        strokeColor: "#fff",
+        strokeWidth: 3,
+        strokeOpacity: 1,
+        fillOpacity: 1,
+        hover: {
+          size: 6
+        }
+      },
+      xaxis: {
+        type: "datetime",
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        }
+      },
+      yaxis: {
+        labels: {
+          offsetX: 14,
+          offsetY: -5
+        },
+        tooltip: {
+          enabled: true
+        }
+      },
+      grid: {
+        padding: {
+          left: -5,
+          right: 5
+        }
+      },
+      tooltip: {
+        x: {
+          format: "dd MMM yyyy"
+        },
+      },
+      legend: {
+        position: 'top',
+        horizontalAlign: 'left'
+      },
+      fill: {
+        type: "solid",
+        fillOpacity: 0.7
+      }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#timeline-chart"), options);
+
+    chart.render();
+
+    function generateDayWiseTimeSeries(s, count) {
+      var values = @Model.Convert;
+      var i = 0;
+      var series = [];
+      var x = new Date("@Model.dateTime").getTime();
+      while (i < count) {
+        series.push([x, values[s][i]]);
+        x += 86400000*30;
+        i++;
+      }
+      return series;
+    }
+            </script>

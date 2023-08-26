@@ -1,0 +1,144 @@
+﻿@model shopping.Models.Prodect
+@{
+    Layout = "_layoutMer";
+
+}
+@if (Model != null&&Model.IdMerNavigation!=null)
+{
+    Model.IdMer = Model.IdMerNavigation.Id;
+
+}
+    
+<div class="content container-fluid">
+
+<div class="page-header">
+<div class="row align-items-center">
+<div class="col-sm-12">
+<div class="page-sub-header">
+<h3 class="page-title">Add Students</h3>
+<ul class="breadcrumb">
+<li class="breadcrumb-item"><a asp-action="ListProd">المنتجات</a></li>
+<li class="breadcrumb-item active">Add prodects</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div asp-validation-summary="All" >
+
+</div>
+
+<div class="row">
+<div class="col-sm-12">
+<div class="card comman-shadow">
+<div class="card-body">
+
+
+<form asp-action="AddProdect" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="IdMer" />
+<div class="row">
+<div class="col-12">
+<h5 class="form-title student-info">Product Information <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
+</div>
+<div class="col-12 col-sm-4">
+<div class="form-group local-forms">
+<label asp-for="Name">@Html.DisplayNameFor(model => model.Name)<span class="login-danger">*</span></label>
+<input class="form-control" type="text" asp-for="Name" placeholder="@Html.DisplayNameFor(model => model.Name)">
+<span asp-validation-for="Name"></span>
+</div>
+</div>
+
+<div class="col-12 col-sm-4">
+<div class="form-group local-forms">
+<label asp-for="Price">@Html.DisplayNameFor(model => model.Price)<span class="login-danger">*</span></label>
+<input asp-for="Price" class="form-control" placeholder="@Html.DisplayNameFor(model => model.Price)" >
+<span asp-validation-for="Price"></span>
+</div>
+</div>
+
+<div class="col-12 col-sm-4">
+<div class="form-group local-forms">
+<label asp-for="Quantity">@Html.DisplayNameFor(model => model.Quantity)<span class="login-danger">*</span></label>
+<input asp-for="Quantity" class="form-control" type="number" placeholder="@Html.DisplayNameFor(model => model.Quantity)" min="1" >
+<span asp-validation-for="Quantity"></span>
+</div>
+</div>
+<div class="col-12 col-sm-12">
+<div class="form-group local-forms">
+<label asp-for="VideoUrl">@Html.DisplayNameFor(model => model.VideoUrl)<span class="login-danger">*</span></label>
+<input asp-for="VideoUrl" class="form-control"  placeholder="@Html.DisplayNameFor(model => model.VideoUrl)" >
+<span asp-validation-for="VideoUrl"></span>
+</div>
+</div>
+
+
+
+<br />
+<div class="col-12 col-sm-12 align-items-center text-center ">
+<div class="form-group students-up-files">
+<label>Upload @Html.DisplayNameFor(model => model.HomeImg) Photo (150px X 150px)</label>
+<div class="uplod">
+<label class="file-upload image-upbtn mb-0">
+Choose File <input type="file" name="Himg" accept="image/*" >
+</label>
+</div>
+</div>
+</div>
+
+<div class="col-12 col-sm-4 text-center">
+<div class="form-group students-up-files">
+<label>Upload @Html.DisplayNameFor(model => model.Img1) Photo (150px X 150px)</label>
+<div class="uplod">
+<label class="file-upload image-upbtn mb-0">
+Choose File <input type="file" name="Img1" accept="image/*"  >
+</label>
+</div>
+</div>
+</div>
+
+
+<div class="col-12 col-sm-4 text-center">
+<div class="form-group students-up-files">
+<label>Upload @Html.DisplayNameFor(model => model.Img2) Photo (150px X 150px)</label>
+<div class="uplod">
+<label class="file-upload image-upbtn mb-0">
+Choose File <input type="file" name="Img2" accept="image/*"  >
+</label>
+</div>
+</div>
+</div>
+
+
+<div class="col-12 col-sm-4 text-center">
+<div class="form-group students-up-files">
+<label>Upload @Html.DisplayNameFor(model => model.Img3) Photo (150px X 150px)</label>
+<div class="uplod">
+<label class="file-upload image-upbtn mb-0">
+Choose File <input type="file" name="Img3" accept="image/*"  >
+</label>
+</div>
+</div>
+</div>
+
+
+<div class="col-12 col-sm-12">
+<div class="form-group local-forms">
+<label>@Html.DisplayNameFor(model => model.Description)<span class="login-danger">*</span></label>
+<textarea class="form-control" asp-for="Description" rows="8" id="message" placeholder="@Html.DisplayNameFor(model => model.Description)" 
+required="required" data-validation-required-message="Please enter your message"></textarea>
+<span asp-validation-for="Description"></span>
+</div>
+</div>
+
+<div class="col-12">
+<div class="student-submit">
+<button type="submit" class="btn btn-primary">Submit</button>
+</div>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>

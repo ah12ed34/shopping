@@ -1,0 +1,44 @@
+﻿@model IEnumerable<shopping.Models.Member>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_layoutHome.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            
+                @foreach (var ite in item.IdRs)
+                {
+                    <td>
+                     @Html.DisplayFor(modelItem => ite.Name )
+                    </td>
+                }
+               
+            
+            <td>
+                <a asp-action="CR" asp-route-id="@item.Id">Chening roles</a> |
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

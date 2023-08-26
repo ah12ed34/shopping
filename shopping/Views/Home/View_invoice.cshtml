@@ -1,0 +1,176 @@
+﻿@using shopping.data.Facade
+@model Order
+@inject FProduct Fproduct
+@{
+    decimal totle_p = 0;
+    foreach (var item in Model.OrderDaitels)
+    {
+        totle_p += Fproduct.totle_price(item.Price,item.Tax,item.Earning)*item.Quantity;
+    }
+}
+<div class="page-wrapper">
+<div class="content container-fluid">
+<div class="row justify-content-center">
+<div class="col-xl-10">
+<div class="card invoice-info-card">
+<div class="card-body">
+<div class="invoice-item invoice-item-one">
+<div class="row">
+<div class="col-md-6">
+<div class="invoice-logo">
+<img src="~/preskool/assets/img/logo.png" alt="logo">
+</div>
+<div class="invoice-head">
+<h2>Invoice</h2>
+<p>Invoice Number : I@(Model.Id)</p>
+</div>
+</div>
+<div class="col-md-6">
+<div class="invoice-info">
+<strong class="customer-text-one">Invoice From</strong>
+<h6 class="invoice-name">SHOPPING</h6>
+<p class="invoice-details">
+00967772*44***<br>
+Address line <br>
+صنعاء - اليمن
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="invoice-item invoice-item-two">
+<div class="row">
+<div class="col-md-6">
+<div class="invoice-info">
+<strong class="customer-text-one">Billed to</strong>
+<h6 class="invoice-name">@Model.IdMemberNavigation.Fname @Model.IdMemberNavigation.Lname</h6>
+<p class="invoice-details invoice-details-two">
+@Model.IdMemberNavigation.Phone <br>
+@Model.DeliveryLocation <br>
+@Model.IdMemberNavigation.Address <br>
+@Model.IdMemberNavigation.City - @Model.IdMemberNavigation.Country
+</p>
+</div>
+</div>
+@*<div class="col-md-6">
+<div class="invoice-info invoice-info2">
+<strong class="customer-text-one">Payment Details</strong>
+<p class="invoice-details">
+Debit Card <br>
+XXXXXXXXXXXX-2541 <br>
+HDFC Bank
+</p>
+@*<div class="invoice-item-box">
+<p>Recurring : 15 Months</p>
+<p class="mb-0">PO Number : 54515454</p>
+</div>*
+</div>
+</div>*@
+</div>
+</div>
+
+
+<div class="invoice-issues-box">
+<div class="row">
+<div class="col-lg-4 col-md-4">
+<div class="invoice-issues-date">
+<p>Issue Date :@Model.DateOrder</p>
+</div>
+</div>
+<div class="col-lg-4 col-md-4">
+<div class="invoice-issues-date">
+<p>Due Date : @Model.ExpectedTime</p>
+</div>
+</div>
+<div class="col-lg-4 col-md-4">
+<div class="invoice-issues-date">
+<p>Access Date : @(Model.AccessTime) </p>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="invoice-item invoice-table-wrap">
+<div class="row">
+<div class="col-md-12">
+<div class="table-responsive">
+<table class="invoice-table table table-center mb-0">
+<thead>
+<tr>
+<th>اسم المنتج</th>
+<th>السعر</th>
+<th>الكمية</th>
+<th>التخفيض (%)</th>
+<th class="text-end">الاجمالي</th>
+</tr>
+</thead>
+<tbody>
+ @foreach (var item in @Model.OrderDaitels)
+ {
+     <tr>
+        
+        <td>@item.IdProNavigation.Name</td>
+        <td>@Fproduct.totle_price(item.Price,item.Tax,item.Earning)</td>
+        <th>@item.Quantity</th>
+        <th>0%</th>
+        <td class="text-end">@(Fproduct.totle_price(item.Price,item.Tax,item.Earning)*item.Quantity)</td>
+        
+    </tr>
+ }
+
+
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row align-items-center justify-content-center">
+<div class="col-lg-6 col-md-6">
+<div class="invoice-terms">
+<h6>حالات الطلاب:</h6>
+                                    @if (@Model.IsDelivery??false)
+                                    {
+                                        <p class="mb-0">تم التوصيل</p>
+                                    }
+                                    else
+                                    {
+                                       <p class="mb-0">لم يتم التوصيل</p> 
+                                    }
+                                    
+</div>
+<div class="invoice-terms">
+<h6>Terms and Conditions:</h6>
+<p class="mb-0">Enter customer notes or any other details</p>
+</div>
+</div>
+<div class="col-lg-6 col-md-6">
+<div class="invoice-total-card">
+<div class="invoice-total-box">
+<div class="invoice-total-inner">
+<p>Taxable <span>0.00</span></p>
+<p>Additional Charges <span>0.00</span></p>
+<p>Discount <span>0.00</span></p>
+<p class="mb-0">Sub total <span>0.00</span></p>
+</div>
+<div class="invoice-total-footer">
+<h4>Total Amount <span>@(totle_p)</span></h4>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="invoice-sign text-end">
+<img class="img-fluid d-inline-block" src="~/preskool/assets/img/signature.png" alt="sign">
+<span class="d-block">SHOPPING</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+

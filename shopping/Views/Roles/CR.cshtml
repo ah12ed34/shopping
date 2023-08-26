@@ -1,0 +1,95 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<Role>
+@{
+    int uid =0;
+    
+
+    Boolean IsCheck(Role items)
+    {
+        foreach(var item in items.IdMs)
+        {
+            if (uid == item.Id)
+                return true;
+        }
+        return false;
+    }
+
+}
+@if (TempData.ContainsKey("uid"))
+    {
+        try
+        {
+            uid = int.Parse(@TempData["uid"].ToString());
+
+        }catch(Exception e){
+
+            <span class="alert-danger" > @TempData["uid"] </span>
+        }
+        
+    }
+    @if (TempData.ContainsKey("Msg"))
+{
+    @if (TempData.ContainsKey("Code"))
+    {
+        @switch (TempData["Code"])
+        {
+            case 0 :
+                <div class="alert alert-success text-center" >@TempData["Msg"]</div>
+                break;
+            case 1:
+            <div class="alert alert-primary text-center" >@TempData["Msg"]</div>
+                break;
+ case 2:
+            <div class="alert alert-warning text-center" >@TempData["Msg"]</div>
+                break;
+ case 3:
+                <div class="alert alert-danger text-center" >@TempData["Msg"]</div>
+                break;
+            default:
+               <div class="alert alert-info text-center" >@TempData["Msg"]</div>
+                break;
+        }
+    }else
+    {
+        <div class="alert alert-info text-center" >@TempData["Msg"]</div>
+    }
+
+}
+<h4>User:   -    UserName: </h4>
+@if (@TempData.ContainsKey("idT"))
+{
+    <span class="alert-warning" > @TempData["idT"] </span>
+
+}
+<div class=alert-danger" asp-validation-summary="all" ></div>
+<form asp-action="CR" method="post">
+    <input type="hidden" name="uid" value="@uid" />
+    @foreach(var item in Model)
+    @*@for(int i=0; i< Model.Count; i++)*@
+    {
+        
+        @*<input type="hidden"  name="id_@item.Name" value="@item.Id"  />*@
+        
+        @*<input type="hidden" asp-for="@item.IdMs"  />*@
+        @if (@IsCheck(item))
+        {
+             <h5><input type="checkbox" name="IsRole_@item.Name" checked   class="checkbox-input" id="checkbox1"  >
+                @item.Name  </h5>
+        }
+    else
+        {
+                <h5><input type="checkbox" name="IsRole_@item.Name" class="checkbox-input" id="checkbox1"  >
+                @item.Name  </h5>
+
+        }
+       
+          @foreach (var ite in item.IdMs)
+          {
+              <span>@ite.Id  @ite.Email </span>
+          }
+    }
+
+    <button class="btn-success" type="submit" value="Add" asp-route-uid="@uid" >submit</button>
+</form>

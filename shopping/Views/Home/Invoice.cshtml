@@ -1,0 +1,68 @@
+﻿@using shopping.data.Facade
+@model ICollection<Order>
+@inject FProduct FProd 
+@{
+
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card card-table">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-stripped table-hover datatable">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>رقم الطلب</th>
+                                <th>موقع التسليم</th>
+                                <th>تاريخ الطلب</th>
+                                <th>اجمالي القيمة</th>
+                                <th>تاريخ المتوقع لتسليم</th>
+                                <th>الحاله</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (@Model != null&@Model.FirstOrDefault()!=null)
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a asp-controller="home"asp-action="View_invoice" asp-route-OID="@item.Id" class="invoice-link"  style="color: #3d5ee1!important;">@item.Id</a>
+                                        </td>
+                                        <td>@item.DeliveryLocation</td>
+                                        <td>@item.DateOrder</td>
+                                        <td class="text-primary" style="color: #3d5ee1!important;">
+                                            @item.OrderDaitels.Sum(e => FProd.totle_price(e.Price, e.Tax, e.Earning)*e.Quantity)
+                                        </td>
+                                        <td>@item.ExpectedTime</td>
+                                        @if (item.IsDelivery ?? false)
+                                        {
+                                            <td><span class="badge bg-success-light">تم التوصيل</span></td>
+
+                                        }
+                                        else
+                                        {
+                                            <td><span class="badge bg-primary-light">لم يتم التوصيل</span></td>
+
+                                        }
+
+
+                                    </tr>
+                                }
+
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center">لا يوجد لديك طلابات بعد اطلب الان</td>
+                                </tr>
+                            }
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>

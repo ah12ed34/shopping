@@ -1,0 +1,34 @@
+﻿@using shopping.ViewModels
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, AuthoringTagHelpers
+@model MerchantVM
+@{
+    Layout = "_LayoutHome";
+    ViewData["title"] = "انشاء حساب تاجر";
+    if (Model.IdNavigation != null)
+    {
+        Model.IdNavigation = Model.IdNavigation;
+        Model.Id = Model.IdNavigation.Id;
+        
+    }
+    
+}
+<div asp-validation-summary="All" class="alert-danger" ></div>
+     <input asp-for="IdNavigation.Email" disabled />
+<form class="" asp-controller="account" asp-action="AddMerchant" method="post" >
+  
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="IdNavigation.Id" />
+    <label asp-for="TradeName" ></label><br />
+    <input asp-for="TradeName" /><br />
+    <span class="alert-danger" asp-validation-for="TradeName"></span><br />
+    
+    <label asp-for="Locaction" ></label><br />
+    <input asp-for="Locaction" /><br />
+    <span class="alert-danger" asp-validation-for="Locaction"></span><br />
+    
+    <label asp-for="Tax" ></label><br />
+    <input type="number" max="100" min="0" asp-for="Tax" value='5'/><br />
+    <span class="alert-danger" asp-validation-for="Tax"></span><br />
+    <input type="submit"  />
+</form>

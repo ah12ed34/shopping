@@ -1,0 +1,79 @@
+﻿@model shopping.Models.Prodect
+@{
+    Layout = "_layoutMer";
+    int con = Model.Quantity;
+
+}
+@if (Model != null&&Model.IdMerNavigation!=null)
+{
+    Model.IdMer = Model.IdMerNavigation.Id;
+
+}
+    
+<div class="content container-fluid">
+
+<div class="page-header">
+<div class="row align-items-center">
+<div class="col-sm-12">
+<div class="page-sub-header">
+<h3 class="page-title">Add Students</h3>
+<ul class="breadcrumb">
+<li class="breadcrumb-item"><a asp-action="ListProd">المنتجات</a></li>
+<li class="breadcrumb-item active">Add prodects</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div asp-validation-summary="All" >
+
+</div>
+
+<div class="row">
+<div class="col-sm-12">
+<div class="card comman-shadow">
+<div class="card-body">
+
+
+<form asp-action="AddProdect" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="IdMer" />
+<div class="row">
+<div class="col-12">
+<h5 class="form-title student-info">Product Information <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h5>
+</div>
+<div class="col-12 col-sm-4">
+<div class="form-group local-forms">
+<label asp-for="Name">@Html.DisplayNameFor(model => model.Name)<span class="login-danger"></span></label>
+<input disabled class="form-control" type="text" value="@Model.Name" placeholder="@Html.DisplayNameFor(model => model.Name)">
+</div>
+</div>
+
+<div class="col-12 col-sm-4">
+<div class="form-group local-forms">
+<label >الكمية الموجودة<span class="login-danger"></span></label>
+<input disabled class="form-control" type="text" value="@con">
+</div>
+</div>
+
+
+<div class="col-12 col-sm-4">
+<div class="form-group local-forms">
+<label asp-for="Quantity">الكميه المراد اضافته<span class="login-danger">*</span></label>
+<input asp-for="Quantity" class="form-control" type="number" placeholder="@Html.DisplayNameFor(model => model.Quantity)" min="@(-con-1)" value="1" >
+<span asp-validation-for="Quantity"></span>
+</div>
+</div>
+
+
+<div class="col-12">
+<div class="student-submit">
+<button type="submit" asp-route-Id="@Model.Id" class="btn btn-primary">Submit</button>
+</div>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>

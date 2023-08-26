@@ -1,0 +1,97 @@
+﻿@using shopping.Areas.Account.Models
+@using shopping.ViewModels
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, AuthoringTagHelpers
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Register
+@{
+    Layout = "_LayoutHome";
+    ViewData["Title"] = "أنشاء حساب";
+}
+
+>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2 class="text-center">@ViewData["Title"]</h2>
+            <hr>
+            <form asp-controller="Account" asp-action="Register"  method="post" style="text-align: right;">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Fname"></label><span class="text-danger">*</span>
+                    <input asp-for="Fname" class="form-control" />
+                    <span asp-validation-for="Fname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mname"></label>
+                    <input asp-for="Mname" class="form-control" />
+                    <span asp-validation-for="Mname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Lname"></label>
+                    <input asp-for="Lname" class="form-control" />
+                    <span asp-validation-for="Lname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserName"></label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control" type="password" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" type="password" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Birthday"></label>
+                    <input type="date" asp-for="Birthday" class="form-control" />
+                    <span asp-validation-for="Birthday" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label >Gender</label>
+                    <select  class="form-control">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        
+                    </select>
+                    <span  class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                      <label asp-for="Phone"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Country"></label>
+                <input asp-for="Country" class="form-control" />
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">@ViewData["Title"]</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>

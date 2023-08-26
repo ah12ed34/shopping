@@ -1,0 +1,56 @@
+﻿@using shopping.Areas.Account.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, AuthoringTagHelpers
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Login
+@{
+    Layout = "_LayoutHome";
+    ViewData["Title"] = "تسجيل دخول";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+            <form  asp-controller="Account" asp-action="login" method="post">
+                <div class="form-group">
+                    <label asp-for="UserName"></label>
+                    <input type="text" class="form-control" id="username"asp-for="UserName">
+                    <span asp-validation-for="UserName" class="alert-danger" ></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password" ></label>
+                    <input type="password" class="form-control" id="password" asp-for="Password" >
+                    <span asp-validation-for="Password" class="alert-danger" ></span>
+                </div>
+                <div class="form-check mb-3">
+                          <input asp-for="RememberMe" class="form-check-input" id="rememberMe">
+                          <label asp-for="RememberMe" class="form-check-label" for="rememberMe"></label>
+                   </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                 <a asp-area="account" asp-controller="register" >انشاء حساب جديد</a>
+            </form>
+        </div>
+    </div>
+</div>
+@*<h5 class="align-content-center">تسجيل دخول</h5>
+<form asp-controller="account" asp-action="Login" >
+   <div asp-validation-summary="All"></div>
+    <label asp-for="UserName" ></label><br />
+    <input asp-for="UserName" /><br />
+    <span asp-validation-for="UserName" class="alert-danger" ></span>
+    <br />
+    <label asp-for="Password" ></label><br />
+    <input asp-for="Password" /><br />
+    <span asp-validation-for="Password" class="alert-danger" ></span>
+    <br />
+    <input asp-for="RememberMe" /><label asp-for="RememberMe"></label>
+    <br />
+    <button class"btn btn-primary">تسجيل دخول</button>
+
+    <br />
+    <a asp-controller="account" asp-action="register">انشاء حساب جديد</a>
+    
+</form>*@

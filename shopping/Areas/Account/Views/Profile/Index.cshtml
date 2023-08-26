@@ -1,0 +1,139 @@
+﻿@model Member
+
+
+
+<h1>Profile</h1>
+<div class="card">
+<div class="card-body">
+<div class="row">
+<div class="col-md-12">
+<div class="about-info">
+<h4>Profile <span><a href="javascript:;"><i class="feather-more-vertical"></i></a></span></h4>
+</div>
+<div class="student-profile-head">
+<div class="profile-bg-img">
+<img src="~/preskool/assets/img/profile-bg.jpg" alt="Profile">
+</div>
+<div class="row">
+<div class="col-lg-4 col-md-4">
+<div class="profile-user-box">
+<div class="profile-user-img">
+<img src="~/img/profile/@(Model.Profile??"profile.jpg")" alt="Profile">
+<form asp-action="Index" method="post" enctype="multipart/form-data" >
+<div class="form-group students-up-files profile-edit-icon mb-0">
+
+    <input type="hidden" asp-for="Id" />
+<div class="uplod d-flex">
+<label class="file-upload profile-upbtn mb-0">
+<i class="feather-edit-3"></i><input type="file" asp-for="Profile" accept="image/*" onchange="this.form.submit()" >
+</label>
+</div>
+
+</div>
+@*<input type="submit" style="margin-top: 100px;" />*@
+</form>
+</div>
+<div class="names-profiles">
+<h4>@Model.Fname</h4>
+<h5>@Model.Lname</h5>
+</div>
+</div>
+</div>
+
+
+</div>
+</div>
+</div>
+</div>
+<div class="align-content-center align-items-center justify-content-center">
+<div class="row">
+<div class="col-lg-4">
+<div class="student-personals-grp">
+<div class="card">
+<div class="card-body">
+<div class="heading-detail">
+<h4>Personal Details :</h4>
+</div>
+<div class="personal-activity">
+<div class="personal-icons">
+<i class="feather-user"></i>
+</div>
+<div class="views-personal">
+<h4>Name</h4>
+<h5>@Model.Fname</h5>
+</div>
+</div>
+
+<div class="personal-activity">
+<div class="personal-icons">
+<i class="feather-phone-call"></i>
+</div>
+<div class="views-personal">
+<h4>Mobile</h4>
+<h5>@Model.Phone</h5>
+</div>
+</div>
+<div class="personal-activity">
+<div class="personal-icons">
+<i class="feather-mail"></i>
+</div>
+<div class="views-personal">
+<h4>@Model.Email</h4>
+</div>
+</div>
+<div class="personal-activity">
+<div class="personal-icons">
+<i class="feather-user"></i>
+</div>
+<div class="views-personal">
+<h4>Gender</h4>
+@if (true)
+  {<h5>Male</h5>
+  }
+  else
+  {
+    <h5>Female</h5>}
+</div>
+</div>
+<div class="personal-activity">
+<div class="personal-icons">
+<i class="feather-calendar"></i>
+</div>
+<div class="views-personal">
+<h4>Date of Birth</h4>
+<h5>@Model.Birthday</h5>
+</div>
+</div>
+<div class="personal-activity">
+<div class="personal-icons">
+<i class="feather-italic"></i>
+</div>
+<div class="views-personal">
+<h4>Language</h4>
+<h5>English, French, Bangla</h5>
+</div>
+</div>
+<div class="personal-activity mb-0">
+<div class="personal-icons">
+<i class="feather-map-pin"></i>
+</div>
+<div class="views-personal">
+<h4>Address</h4>
+<h5>@Model.City , @Model.Address , @Model.Country</h5>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+        
+</div>
+
+<div class="row">
+    <a asp-area="account" asp-controller="restPassword">تفيير كلمة المرور </a>
+</div>
+
+</div>
+</div>
+</div>
